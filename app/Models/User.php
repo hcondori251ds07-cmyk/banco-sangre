@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password', 'rol', 'activo'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -29,4 +30,18 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function evaluacionesRealizadas(): HasMany
+{
+    return $this->hasMany(Evaluacion::class, 'user_id');
+}
+
+public function donacionesRegistradas(): HasMany
+{
+    return $this->hasMany(Donacion::class, 'user_id');
+}
+
+public function pedidosRegistrados(): HasMany
+{
+    return $this->hasMany(Pedido::class, 'registrado_por');
+}
 }
